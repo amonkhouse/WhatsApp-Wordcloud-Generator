@@ -78,8 +78,6 @@ class WhatsAppWordCloud():
 
     def create_wordcloud(self):
         parsed_messages = self.__parse_messages(self.messages)
-        with open('test.txt', 'w') as f:
-            f.write(parsed_messages)
         wordcloud = WordCloud(width=3000, height=1500, min_word_length=3, background_color='white').generate(parsed_messages)
         self.__plot_cloud(wordcloud, self.chat_name)
 
