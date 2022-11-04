@@ -11,9 +11,10 @@ cached_stopwords = stopwords.words('english')
 
 class WhatsAppWordCloud():
 
-    def __init__(self, chat_name):
+    def __init__(self, chat_name, datetime_format):
 
         self.chat_name = chat_name
+        self.datetime_format = datetime_format
         self.messages = self.__load_messages()
 
     def __load_messages(self):
@@ -25,9 +26,8 @@ class WhatsAppWordCloud():
             print("Error loading data. Are you sure your file exists in the data/ folder?")
             sys.exit()
 
-    @staticmethod
-    def __starts_with_datetime(message):
-        return re.match('\d{2}/\d{2}/\d{4}, \d{2}:\d{2}', message)
+    def __starts_with_datetime(self, message):
+        return re.match(self.datetime_format, message)
 
     @staticmethod
     def __word_is_link(word):
@@ -49,14 +49,13 @@ class WhatsAppWordCloud():
     def __valid_message(message):
         return '<Media omitted>' not in message and ': ' in message
 
-    @classmethod
-    def __join_multiline_messages(cls, messages):
+    def __join_multiline_messages(self, messages):
         starts_with_datetime_index = 0
         parsed_messages = messages.copy()
         messages_to_remove = []
         
         for i, message in enumerate(messages):
-            if cls.__starts_with_datetime(message):
+            if self.__starts_with_datetime(message):
                 starts_with_datetime_index = i
             else:
                 parsed_messages[starts_with_datetime_index] += message
@@ -65,11 +64,10 @@ class WhatsAppWordCloud():
             parsed_messages.remove(message)
         return parsed_messages
     
-    @classmethod
-    def __parse_messages(cls, messages):
-        condensed_messages = cls.__join_multiline_messages(messages)
-        valid_messages = [message for message in condensed_messages if cls.__valid_message(message)]
-        message_bodies = [cls.__get_message(message) for message in valid_messages]
+    def __parse_messages(self, messages):
+        condensed_messages = self.__join_multiline_messages(messages)
+        valid_messages = [message for message in condensed_messages if self.__valid_message(message)]
+        message_bodies = [self.__get_message(message) for message in valid_messages]
         return ' '.join(message_bodies)
 
     @staticmethod
@@ -84,13 +82,27 @@ class WhatsAppWordCloud():
         self.__plot_cloud(wordcloud, self.chat_name)
 
 
+def get_os_datetime_format():
+
+    os = input("Are you using IOS or Android? ").lower()
+    if os not in ['ios', 'android']:
+        print("Please specify 'IOS' or 'Android'.")
+        sys.exit()
+    
+    if os == 'android':
+        return '\d{2}/\d{2}/\d{4}, \d{2}:\d{2}'
+    else:
+        return '\[\d{2}/\d{2}/\d{4}, \d{2}:\d{2}:\d{2}\]'
+
+    
 if __name__ == "__main__":
     
     if not os.path.exists("wordclouds/"):
         os.makedirs("wordclouds")
 
+    datetime_format = get_os_datetime_format()
     chat = input("Please enter the name of the chat you want to process: ")
-    chat_wordcloud = WhatsAppWordCloud(chat)
+    chat_wordcloud = WhatsAppWordCloud(chat, datetime_format)
     print("Generating wordcloud...")
     chat_wordcloud.create_wordcloud()
     print("Successfully generated wordcloud!")
