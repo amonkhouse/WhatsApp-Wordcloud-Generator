@@ -1,0 +1,2 @@
+1. Cluster words by a specific participant in a chat
+2. Remove commonly used words like "gonna", "want", etc.
