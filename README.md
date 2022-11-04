@@ -15,7 +15,7 @@ Before running the main program, you must install the requirements and download 
 
 ### Download WhatsApp data
 
-You can find out how to download chat history [here](https://faq.whatsapp.com/196737011380816). Place your files in a `data/` folder.
+You can find out how to download chat history [here](https://faq.whatsapp.com/196737011380816). Place your files in a `data/` folder at the top level of this project.
 
 ## Running the main program
 
