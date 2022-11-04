@@ -51,8 +51,10 @@ class WhatsAppWordCloud():
 
     @classmethod
     def __join_multiline_messages(cls, messages):
+        starts_with_datetime_index = 0
         parsed_messages = messages.copy()
         messages_to_remove = []
+        
         for i, message in enumerate(messages):
             if cls.__starts_with_datetime(message):
                 starts_with_datetime_index = i
