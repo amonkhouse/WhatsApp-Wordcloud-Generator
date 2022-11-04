@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 
 import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
@@ -16,9 +17,13 @@ class WhatsAppWordCloud():
         self.messages = self.__load_messages()
 
     def __load_messages(self):
-        with open(f'data/{self.chat_name}.txt', 'r') as f:
-            all_lines = f.readlines()
-        return all_lines
+        try:
+            with open(f'data/{self.chat_name}.txt', 'r') as f:
+                all_lines = f.readlines()
+            return all_lines
+        except:
+            print("Error loading data. Are you sure your file exists in the data/ folder?")
+            sys.exit()
 
     @staticmethod
     def __starts_with_datetime(message):
