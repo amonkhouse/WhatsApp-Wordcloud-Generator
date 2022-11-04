@@ -19,5 +19,5 @@ You can find out how to download chat history [here](https://faq.whatsapp.com/19
 
 ## Running the main program
 
-To create a Wordcloud, run `python create_wordcloud.py`. The program will prompt you for the name of the file (without the `.txt` suffix) that you want to process. This file must be in a folder called `data`.
+To create a Wordcloud, run `python create_wordcloud.py`. The program will prompt you for the name of the file (without the `.txt` suffix) that you want to process. This file must be in a folder called `data`. For example, if you have a file called "Amy.txt" in your data folder, you would only need to type "Amy".
 Wordclouds will be saved to a `wordclouds` folder.
