@@ -4,7 +4,7 @@ This project contains code to create a Wordcloud that shows you the most commonl
 
 ## Setup
 
-This project runs using Python 3.9.
+This project runs using Python 3.
 
 ### Installing requirements
 
